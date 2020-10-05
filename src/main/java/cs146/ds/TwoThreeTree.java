@@ -29,10 +29,6 @@ public class TwoThreeTree {
             return children;
         }
 
-        public boolean isLeaf() {
-            return this.children.size() == 0;
-        }
-
         public boolean isTwoNode() {
             return this.keys.size() == 1;
         }
