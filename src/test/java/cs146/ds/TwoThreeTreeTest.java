@@ -14,6 +14,7 @@ public class TwoThreeTreeTest {
     public void init() {
         tree = new TwoThreeTree();
     }
+
     @Test
     public void testInserting() {
         TwoThreeTree.Node root = tree.getRoot();
@@ -35,7 +36,7 @@ public class TwoThreeTreeTest {
         assertEquals(2, children.size());
         int key1 = children.get(0).getKeys().get(0);
         int key2 = children.get(1).getKeys().get(0);
-        assertEquals(2, key1);
+        assertEquals(1, key1);
         assertEquals(3, key2);
     }
 

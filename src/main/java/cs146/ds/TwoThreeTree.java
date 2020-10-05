@@ -17,8 +17,8 @@ public class TwoThreeTree {
 
         public Node(int key, Node child1, Node child2) {
             this.keys.add(key);
-            this.children.add(child1);
-            this.children.add(child2);
+            if (child1 != null) this.children.add(child1);
+            if (child2 != null) this.children.add(child2);
         }
 
         public List<Integer> getKeys() {
@@ -47,7 +47,10 @@ public class TwoThreeTree {
 
         public int compareKey(int key) {
             int rank = 0;
-            while (key > keys.get(rank).intValue()) rank += 1;
+            while (key > keys.get(rank).intValue()) {
+                rank += 1;
+                if (rank >= keys.size()) break;
+            }
             return rank;
         }
 
@@ -63,8 +66,12 @@ public class TwoThreeTree {
 
         public Node[] split() {
             Node[] result = new Node[2];
-            result[0] = new Node(keys.get(0), children.get(0), children.get(1));
-            result[1] = new Node(keys.get(2), children.get(2), children.get(3));
+            Node[] children = new Node[4];
+            for (int i = 0; i < this.children.size(); i++) {
+                children[i] = this.children.get(i);
+            }
+            result[0] = new Node(keys.get(0), children[0], children[1]);
+            result[1] = new Node(keys.get(2), children[2], children[3]);
             return result;
         }
     }
@@ -87,7 +94,8 @@ public class TwoThreeTree {
 
     private Node findLeafNode(Node root, int key) {
         int rank = root.compareKey(key);
-        if (root.children.get(rank) == null) return root;
+        if (root.children.size() <= rank || root.children.get(rank) == null)
+            return root;
         return findLeafNode(root.children.get(rank), key);
     }
 
@@ -99,6 +107,7 @@ public class TwoThreeTree {
             this.root = new Node(key);
             this.root.children.add(nodes[0]);
             this.root.children.add(nodes[1]);
+            return;
         }
         int rank = node.parent.addKey(key);
         node.parent.addChild(rank, nodes[1]);
